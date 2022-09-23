@@ -6,7 +6,7 @@ import Time from "./Utils/Time.js";
 import Camera from "./Camera.js";
 import Renderer from "./Renderer";
 
-
+import World from "./World/World.js";
 
 export default class Experience {
     static instance
@@ -21,12 +21,21 @@ export default class Experience {
         this.sizes = new Sizes();
         this.camera = new Camera();
         this.renderer = new Renderer();
-
+        this.world = new World();
+        
+        this.sizes.on("resize", () => {
+          this.resize();
+        });
         this.time.on("update", () => {
-            this.update();
-        })
+          this.update();
+        });
     }
  
+    resize() {
+        this.camera.update();
+        this.renderer.update();
+    }
+
     update() {
         this.camera.update();
         this.renderer.update();
